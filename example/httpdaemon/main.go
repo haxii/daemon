@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	port    = flag.Int("p", 8080, "server port")
-	service = flag.String("s", daemon.UsageDefaultName, daemon.UsageMessage)
+	port = flag.Int("p", 8080, "server port")
+	_    = flag.String("s", daemon.UsageDefaultName, daemon.UsageMessage)
 )
 
 func main() {
@@ -19,11 +19,11 @@ func main() {
 
 	d.Run(func() {
 		flag.Parse()
-		http.HandleFunc("/hello", helloServer)
+		http.HandleFunc("/hello",
+			func(w http.ResponseWriter, req *http.Request) {
+				io.WriteString(w, "hello, world!\n")
+			},
+		)
 		http.ListenAndServe(fmt.Sprintf(":%d", *port), nil)
 	})
-}
-
-func helloServer(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "hello, world!\n")
 }

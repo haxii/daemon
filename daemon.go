@@ -71,7 +71,11 @@ func (d *Daemon) Run(entry func()) {
 	os.Exit(1)
 }
 
-//Make make a new daemon
+// Make make a new daemon.
+//
+// usageName is the sub command name of the service control for daemon and `-s`
+// is recommended, serviceName & description is the name and description of the
+// daemon, and dependencies are the services used by daemon
 func Make(usageName string, serviceName,
 	description string, dependencies ...string) *Daemon {
 	// make a takama‘s daemon instance
