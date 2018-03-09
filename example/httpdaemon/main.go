@@ -15,15 +15,15 @@ var (
 )
 
 func main() {
-	d := daemon.Make("-s", "httpdaemon", "simple http daemon service")
+	daemon.Make("-s", "httpdaemon", "simple http daemon service").Run(serve)
+}
 
-	d.Run(func() {
-		flag.Parse()
-		http.HandleFunc("/hello",
-			func(w http.ResponseWriter, req *http.Request) {
-				io.WriteString(w, "hello, world!\n")
-			},
-		)
-		http.ListenAndServe(fmt.Sprintf(":%d", *port), nil)
-	})
+func serve() {
+	flag.Parse()
+	http.HandleFunc("/hello",
+		func(w http.ResponseWriter, req *http.Request) {
+			io.WriteString(w, "hello, world!\n")
+		},
+	)
+	http.ListenAndServe(fmt.Sprintf(":%d", *port), nil)
 }
